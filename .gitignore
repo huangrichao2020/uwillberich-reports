@@ -1,0 +1,4 @@
+node_modules/
+public/news/
+public/reports/*.md
+views/

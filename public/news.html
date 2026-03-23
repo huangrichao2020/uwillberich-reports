@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>新闻雷达 - uwillberich</title>
+<script>
+(function(){
+  var p=window.location.pathname||'/';
+  var m=p.match(/^(\/reports)/);
+  window.APP_BASE_PATH=m?m[1]:'';
+})();
+</script>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--border:#1e293b;--text:#f1f5f9;--dim:#94a3b8;--accent:#38bdf8;--red:#ef4444;--gold:#fbbf24;--green:#4ade80;--orange:#fb923c;--purple:#a78bfa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,"PingFang SC",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-tap-highlight-color:transparent}
+
+.hero{position:relative;padding:48px 20px 28px;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(56,189,248,.1),transparent 60%),radial-gradient(ellipse at 20% 100%,rgba(239,68,68,.06),transparent 50%);z-index:0}
+.hero>*{position:relative;z-index:1}
+.hero h1{font-size:2.6em;font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:10px}
+.hero h1 .u{color:var(--gold)}
+.hero .tagline{font-size:.95em;color:var(--dim);max-width:540px;margin:0 auto 20px;line-height:1.7}
+.hero .tagline strong{color:var(--text)}
+.nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.nav a{padding:8px 16px;border-radius:10px;background:var(--card);color:var(--dim);text-decoration:none;font-weight:600;font-size:.84em;border:1px solid var(--border);transition:all .15s;white-space:nowrap}
+.nav a:hover,.nav a.on{border-color:var(--accent);color:var(--accent)}
+.nav a.on{background:rgba(56,189,248,.08)}
+.page-sub{text-align:center;padding:18px 20px 20px;color:var(--dim);font-size:.9em}
+
+/* Wrap */
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
+
+/* Update bar */
+.update-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;color:var(--dim);font-size:.8em}
+
+/* AI Section */
+.ai-section{margin-bottom:32px}
+.ai-section .sec-title{font-size:1.1em;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ai-section .badge{padding:3px 10px;border-radius:999px;font-size:.7em;background:rgba(167,139,250,.15);color:var(--purple)}
+.ai-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;border-left:3px solid var(--purple);margin-bottom:14px}
+.ai-card-head{padding:14px 18px 0;display:flex;justify-content:space-between;align-items:center}
+.ai-card-head h3{font-size:.95em;font-weight:700;color:var(--purple)}
+.ai-card-head .t{font-size:.72em;color:var(--dim)}
+.ai-card-body{padding:10px 18px 14px;font-size:.88em;line-height:1.85;color:var(--dim)}
+.ai-card-body h3,.ai-card-body h4{color:var(--text);font-size:.92em;margin:14px 0 6px}
+.ai-card-body strong{color:var(--gold)}
+.ai-card-body em{color:var(--accent);font-style:normal}
+.ai-card-body ul,.ai-card-body ol{margin:6px 0 6px 18px}
+.ai-card-body li{margin-bottom:4px}
+.ai-card-body p{margin-bottom:8px}
+.ai-card-body hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+.ai-refs{padding:0 18px 14px;display:flex;flex-wrap:wrap;gap:6px}
+.ai-ref{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.15);font-size:.72em;color:var(--accent);text-decoration:none;transition:all .15s;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ai-ref:hover{background:rgba(56,189,248,.18)}
+
+/* Filters */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;-webkit-overflow-scrolling:touch}
+.filters button{padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--dim);font-size:.82em;cursor:pointer;transition:all .2s;white-space:nowrap}
+.filters button:hover,.filters button.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+/* News items */
+.news-list{display:flex;flex-direction:column;gap:10px}
+.ni{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:border-color .2s}
+.ni:hover{border-color:var(--accent)}
+.ni .src{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.7em;font-weight:600;margin-right:6px}
+.src-eastmoney{background:rgba(251,146,60,.12);color:var(--orange)}
+.src-cls{background:rgba(74,222,128,.12);color:var(--green)}
+.src-sina{background:rgba(56,189,248,.12);color:var(--accent)}
+.src-ths{background:rgba(251,191,36,.12);color:var(--gold)}
+.ni .t{color:var(--dim);font-size:.72em}
+.ni h3{font-size:.88em;font-weight:600;margin:5px 0 2px;line-height:1.55}
+.ni .sum{color:var(--dim);font-size:.82em;line-height:1.6;margin-top:4px}
+
+.sec-divider{font-size:1em;font-weight:700;margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.count{color:var(--dim);font-size:.82em;margin-bottom:10px}
+.empty{text-align:center;padding:40px 20px;color:var(--dim)}
+.footer{text-align:center;padding:20px;color:var(--dim);font-size:.78em;border-top:1px solid var(--border);margin-top:32px}
+
+@media(max-width:768px){
+  .hero{padding:32px 16px 20px}
+  .hero h1{font-size:1.8em}
+  .hero .tagline{font-size:.86em;margin-bottom:14px}
+  .nav{gap:6px}
+  .nav a{padding:7px 12px;font-size:.78em}
+  .page-sub{padding:12px 14px 14px;font-size:.84em}
+  .wrap{padding:0 12px 32px}
+  .ai-card-body{padding:8px 14px 12px;font-size:.84em}
+  .ai-ref{max-width:180px;font-size:.68em}
+  .ni{padding:12px 14px}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1><span class="u">u</span>willbe<span class="u">rich</span></h1>
+  <p class="tagline">不做股评家，不做事后诸葛亮。<br>我们只做一件事：<strong>把不完整的信息变成下一个交易日的执行计划。</strong></p>
+  <nav class="nav" id="nav"></nav>
+</div>
+<div class="page-sub">📡 实时快讯 — 东方财富 · 财联社 · 同花顺 · 新浪 | 5分钟自动刷新</div>
+
+<div class="wrap">
+  <div class="update-bar"><span id="updateTime"></span><span id="count"></span></div>
+
+  <div class="filters" id="filters"></div>
+  <div class="news-list" id="newsList"><div class="empty">加载中...</div></div>
+</div>
+
+<div class="footer">uwillberich Decision Engine · 5 Sources · Auto Refresh</div>
+
+<script>
+const B=window.APP_BASE_PATH||'';
+document.getElementById('nav').innerHTML=[
+  `<a href="${B}/">首页</a>`,
+  `<a href="${B}/news" class="on">📡 实时快讯</a>`,
+  `<a href="${B}/insights">🧠 大V观点</a>`,
+  `<a href="${B}/zt">🔥 涨停复盘</a>`,
+  `<a href="${B}/20260322/pq">🌅 盘前日报</a>`,
+  `<a href="${B}/20260322/pz">☀️ 盘中日报</a>`,
+  `<a href="${B}/20260322/ph">🌙 盘后日报</a>`,
+].join('');
+
+const SL={eastmoney:'东方财富',cls:'财联社',sina:'新浪',ths:'同花顺'};
+const SC={eastmoney:'src-eastmoney',cls:'src-cls',sina:'src-sina',ths:'src-ths'};
+let all=[],af='all';
+
+function md2html(t){
+  return t
+    .replace(/### \*\*(.+?)\*\*/g,'<h4><strong>$1</strong></h4>')
+    .replace(/### (.+)/g,'<h4>$1</h4>')
+    .replace(/## (.+)/g,'<h3>$1</h3>')
+    .replace(/# (.+)/g,'<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/^- (.+)/gm,'<li>$1</li>')
+    .replace(/\n{2,}/g,'<br><br>')
+    .replace(/\n/g,'<br>');
+}
+
+async function loadBaidu(){
+  try{
+    const d=await(await fetch(B+'/api/baidu-insights')).json();
+    if(!d.ok||!d.items||!d.items.length)return;
+    document.getElementById('aiSection').style.display='block';
+    document.getElementById('aiCards').innerHTML=d.items.map(i=>{
+      const refs=(i.refs||[]).map(r=>{
+        if(!r.title)return'';
+        const s=r.site||'link';
+        return `<a class="ai-ref" href="${esc(r.url)}" target="_blank">${esc(s)}: ${esc(r.title)}</a>`;
+      }).filter(Boolean).join('');
+      return `<div class="ai-card"><div class="ai-card-head"><h3>${esc(i.category||i.title)}</h3><span class="t">${i.published_at||''}</span></div><div class="ai-card-body">${md2html(i.summary||'')}</div>${refs?'<div class="ai-refs">'+refs+'</div>':''}</div>`;
+    }).join('');
+  }catch(e){}
+}
+
+async function loadNews(){
+  try{
+    const d=await(await fetch(B+'/api/news')).json();
+    if(!d.ok)throw 0;
+    all=(d.items||[]).filter(i=>i.source!=='baidu');
+    document.getElementById('updateTime').textContent=d.updatedAt?'更新: '+new Date(d.updatedAt).toLocaleString('zh-CN'):'';
+    buildFilters();render();
+  }catch(e){document.getElementById('newsList').innerHTML='<div class="empty">加载失败</div>';}
+}
+
+function buildFilters(){
+  const ss=[...new Set(all.map(i=>i.source))];
+  const el=document.getElementById('filters');
+  let h='<button class="on" data-s="all">全部 ('+all.length+')</button>';
+  for(const s of ss){h+=`<button data-s="${s}">${SL[s]||s} (${all.filter(i=>i.source===s).length})</button>`;}
+  el.innerHTML=h;
+  el.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+    af=b.dataset.s;el.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render();
+  }));
+}
+
+function render(){
+  const f=af==='all'?all:all.filter(i=>i.source===af);
+  document.getElementById('count').textContent=f.length+'条';
+  if(!f.length){document.getElementById('newsList').innerHTML='<div class="empty">暂无</div>';return;}
+  document.getElementById('newsList').innerHTML=f.map(i=>{
+    const src=SL[i.source]||i.source,cls=SC[i.source]||'',tm=i.published_at||'';
+    const sum=i.summary&&i.summary!==i.title?`<div class="sum">${esc(i.summary.slice(0,200))}</div>`:'';
+    const cat=i.category?'['+i.category+'] ':'';
+    return `<div class="ni"><span class="src ${cls}">${src}</span><span class="t">${tm}</span><h3>${esc(cat+i.title)}</h3>${sum}</div>`;
+  }).join('');
+}
+
+function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+loadNews();
+setInterval(loadNews,5*60*1000);
+</script>
+</body>
+</html>

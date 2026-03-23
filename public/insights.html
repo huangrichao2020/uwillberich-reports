@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>大V观点 - uwillberich</title>
+<script>
+(function(){
+  var p=window.location.pathname||'/';
+  var m=p.match(/^(\/reports)/);
+  window.APP_BASE_PATH=m?m[1]:'';
+})();
+</script>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--border:#1e293b;--text:#f1f5f9;--dim:#94a3b8;--accent:#38bdf8;--red:#ef4444;--gold:#fbbf24;--green:#4ade80;--orange:#fb923c;--purple:#a78bfa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,"PingFang SC",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-tap-highlight-color:transparent}
+
+.hero{position:relative;padding:48px 20px 28px;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(56,189,248,.1),transparent 60%),radial-gradient(ellipse at 20% 100%,rgba(239,68,68,.06),transparent 50%);z-index:0}
+.hero>*{position:relative;z-index:1}
+.hero h1{font-size:2.6em;font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:10px}
+.hero h1 .u{color:var(--gold)}
+.hero .tagline{font-size:.95em;color:var(--dim);max-width:540px;margin:0 auto 20px;line-height:1.7}
+.hero .tagline strong{color:var(--text)}
+.nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.nav a{padding:8px 16px;border-radius:10px;background:var(--card);color:var(--dim);text-decoration:none;font-weight:600;font-size:.84em;border:1px solid var(--border);transition:all .15s;white-space:nowrap}
+.nav a:hover,.nav a.on{border-color:var(--accent);color:var(--accent)}
+.nav a.on{background:rgba(56,189,248,.08)}
+.page-sub{text-align:center;padding:18px 20px 10px;color:var(--dim);font-size:.9em;line-height:1.6}
+.page-sub .sources{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:10px}
+.page-sub .src-tag{padding:3px 10px;border-radius:999px;font-size:.72em;font-weight:600;background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
+.update-bar{color:var(--dim);font-size:.8em;margin-bottom:20px;text-align:right}
+
+/* Insight cards */
+.insight-list{display:flex;flex-direction:column;gap:20px}
+.insight{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .2s}
+.insight:hover{border-color:var(--purple)}
+.insight-head{padding:18px 20px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.insight-head h2{font-size:1.1em;font-weight:700;color:var(--purple);display:flex;align-items:center;gap:8px}
+.insight-head h2 .dot{width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0}
+.insight-head .time{font-size:.75em;color:var(--dim);white-space:nowrap;margin-top:3px}
+
+/* Content area */
+.insight-body{padding:14px 20px 18px;font-size:.9em;line-height:1.9;color:var(--dim)}
+.insight-body h1,.insight-body h2{font-size:1em;color:var(--text);margin:16px 0 8px;font-weight:700}
+.insight-body h3,.insight-body h4{font-size:.95em;color:var(--text);margin:14px 0 6px;font-weight:700}
+.insight-body strong{color:var(--gold)}
+.insight-body em{color:var(--accent);font-style:normal;font-weight:500}
+.insight-body p{margin-bottom:10px}
+.insight-body ul,.insight-body ol{margin:8px 0 8px 20px}
+.insight-body li{margin-bottom:5px}
+.insight-body hr{border:none;border-top:1px solid var(--border);margin:14px 0}
+.insight-body blockquote{border-left:3px solid var(--purple);padding:8px 12px;margin:10px 0;background:rgba(167,139,250,.05);border-radius:0 8px 8px 0}
+
+/* Reference links */
+.insight-refs{padding:0 20px 16px}
+.insight-refs-title{font-size:.78em;color:var(--dim);margin-bottom:8px;font-weight:600}
+.refs-grid{display:flex;flex-wrap:wrap;gap:8px}
+.ref-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:10px;background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.12);font-size:.78em;color:var(--accent);text-decoration:none;transition:all .15s;max-width:100%}
+.ref-link:hover{background:rgba(56,189,248,.14);border-color:var(--accent)}
+.ref-link .ref-site{color:var(--purple);font-weight:600;flex-shrink:0}
+.ref-link .ref-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.empty{text-align:center;padding:48px 20px;color:var(--dim)}
+.empty .hint{margin-top:12px;font-size:.85em}
+.footer{text-align:center;padding:20px;color:var(--dim);font-size:.78em;border-top:1px solid var(--border);margin-top:32px}
+
+@media(max-width:768px){
+  .hero{padding:32px 16px 20px}
+  .hero h1{font-size:1.8em}
+  .hero .tagline{font-size:.86em;margin-bottom:14px}
+  .nav{gap:6px}
+  .nav a{padding:7px 12px;font-size:.78em}
+  .page-sub{padding:12px 14px 8px;font-size:.84em}
+  .nav{gap:6px;padding:0 12px 16px}
+  .nav a{padding:8px 14px;font-size:.82em}
+  .wrap{padding:0 12px 32px}
+  .insight-head{padding:14px 16px 0;flex-direction:column;gap:4px}
+  .insight-body{padding:10px 16px 14px;font-size:.86em}
+  .insight-refs{padding:0 16px 14px}
+  .ref-link{padding:5px 10px;font-size:.74em}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1><span class="u">u</span>willbe<span class="u">rich</span></h1>
+  <p class="tagline">不做股评家，不做事后诸葛亮。<br>我们只做一件事：<strong>把不完整的信息变成下一个交易日的执行计划。</strong></p>
+  <nav class="nav" id="nav"></nav>
+</div>
+<div class="page-sub">
+  🧠 大V观点 — AI 聚合社区最新市场观点
+  <div class="sources">
+    <span class="src-tag">雪球</span><span class="src-tag">知乎</span><span class="src-tag">东方财富</span><span class="src-tag">同花顺</span><span class="src-tag">财联社</span><span class="src-tag">华尔街见闻</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="update-bar" id="updateTime"></div>
+  <div class="insight-list" id="insightList"><div class="empty">加载中...</div></div>
+</div>
+
+<div class="footer">uwillberich Decision Engine · Powered by Baidu Qianfan AI Search</div>
+
+<script>
+const B=window.APP_BASE_PATH||'';
+document.getElementById('nav').innerHTML=[
+  `<a href="${B}/">首页</a>`,
+  `<a href="${B}/news">📡 实时快讯</a>`,
+  `<a href="${B}/insights" class="on">🧠 大V观点</a>`,
+  `<a href="${B}/zt">🔥 涨停复盘</a>`,
+  `<a href="${B}/20260322/pq">🌅 盘前日报</a>`,
+  `<a href="${B}/20260322/pz">☀️ 盘中日报</a>`,
+  `<a href="${B}/20260322/ph">🌙 盘后日报</a>`,
+].join('');
+
+function md2html(t){
+  return t
+    .replace(/#### \*\*(.+?)\*\*/g,'<h4><strong>$1</strong></h4>')
+    .replace(/#### (.+)/g,'<h4>$1</h4>')
+    .replace(/### \*\*(.+?)\*\*/g,'<h3><strong>$1</strong></h3>')
+    .replace(/### (.+)/g,'<h3>$1</h3>')
+    .replace(/## \*\*(.+?)\*\*/g,'<h2><strong>$1</strong></h2>')
+    .replace(/## (.+)/g,'<h2>$1</h2>')
+    .replace(/# (.+)/g,'<h2>$1</h2>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/^- (.+)/gm,'<li>$1</li>')
+    .replace(/^(\d+)\. (.+)/gm,'<li>$2</li>')
+    .replace(/---/g,'<hr>')
+    .replace(/\n{2,}/g,'</p><p>')
+    .replace(/\n/g,'<br>');
+}
+
+function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+async function load(){
+  try{
+    const d=await(await fetch(B+'/api/baidu-insights')).json();
+    if(!d.ok){throw 0;}
+    if(d.updatedAt){
+      document.getElementById('updateTime').textContent='更新时间: '+new Date(d.updatedAt).toLocaleString('zh-CN');
+    }
+    if(!d.items||!d.items.length){
+      document.getElementById('insightList').innerHTML=`<div class="empty">暂无大V观点数据<div class="hint">数据在交易日 09:00-21:00 期间每 5 分钟采集更新</div></div>`;
+      return;
+    }
+    document.getElementById('insightList').innerHTML=d.items.map(item=>{
+      const refs=(item.refs||[]).filter(r=>r.title);
+      const refsHtml=refs.length?`<div class="insight-refs"><div class="refs-title">信息来源 (${refs.length})</div><div class="refs-grid">${refs.map(r=>{
+        const site=r.site||new URL(r.url||'https://x').hostname.replace('www.','');
+        return `<a class="ref-link" href="${esc(r.url)}" target="_blank" rel="noopener"><span class="ref-site">${esc(site)}</span><span class="ref-title">${esc(r.title)}</span></a>`;
+      }).join('')}</div></div>`:'';
+
+      return `<div class="insight">
+        <div class="insight-head">
+          <h2><span class="dot"></span>${esc(item.category||item.title)}</h2>
+          <span class="time">${item.published_at||''}</span>
+        </div>
+        <div class="insight-body">${md2html(item.summary||'')}</div>
+        ${refsHtml}
+      </div>`;
+    }).join('');
+  }catch(e){
+    document.getElementById('insightList').innerHTML='<div class="empty">加载失败</div>';
+  }
+}
+
+load();
+setInterval(load,10*60*1000);
+</script>
+</body>
+</html>

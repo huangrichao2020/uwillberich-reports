@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>日报 - uwillberich</title>
+<script>
+(function(){
+  var p=window.location.pathname||'/';
+  var m=p.match(/^(\/reports)/);
+  window.APP_BASE_PATH=m?m[1]:'';
+})();
+</script>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--border:#1e293b;--text:#f1f5f9;--dim:#94a3b8;--accent:#38bdf8;--red:#ef4444;--gold:#fbbf24;--green:#4ade80;--orange:#fb923c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,"PingFang SC",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-tap-highlight-color:transparent}
+
+.hero{position:relative;padding:48px 20px 28px;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(56,189,248,.1),transparent 60%),radial-gradient(ellipse at 20% 100%,rgba(239,68,68,.06),transparent 50%);z-index:0}
+.hero>*{position:relative;z-index:1}
+.hero h1{font-size:2.6em;font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:10px}
+.hero h1 .u{color:var(--gold)}
+.hero .tagline{font-size:.95em;color:var(--dim);max-width:540px;margin:0 auto 20px;line-height:1.7}
+.hero .tagline strong{color:var(--text)}
+.page-sub{text-align:center;padding:18px 20px 20px}
+.page-sub h2{font-size:1.3em;font-weight:800;letter-spacing:-.02em}
+.page-sub .meta-line{color:var(--dim);font-size:.85em;margin-top:6px}
+.meta-pill{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.78em;font-weight:600;margin:4px}
+.meta-pill.pq{background:rgba(251,146,60,.12);color:var(--orange)}
+.meta-pill.pz{background:rgba(74,222,128,.12);color:var(--green)}
+.meta-pill.ph{background:rgba(56,189,248,.12);color:var(--accent)}
+
+.nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.nav a{padding:8px 16px;border-radius:10px;background:var(--card);color:var(--dim);text-decoration:none;font-weight:600;font-size:.84em;border:1px solid var(--border);transition:all .15s;white-space:nowrap}
+.nav a:hover,.nav a.on{border-color:var(--accent);color:var(--accent)}
+.nav a.on{background:rgba(56,189,248,.08)}
+
+
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
+
+.rb{line-height:1.85}
+.rb h1{font-size:1.4em;margin-bottom:14px;padding:16px 18px;border:1px solid rgba(251,146,60,.15);border-radius:14px;background:rgba(251,146,60,.06);color:var(--orange)}
+.rb h2{font-size:1.15em;margin:28px 0 14px;color:var(--accent);padding-left:12px;border-left:4px solid var(--accent)}
+.rb h3{font-size:1em;margin:20px 0 10px;color:var(--gold)}
+.rb p{margin-bottom:10px;font-size:.9em;color:var(--dim)}
+.rb strong{color:var(--gold)}
+.rb ul,.rb ol{margin:10px 0 10px 22px;color:var(--dim);font-size:.9em}
+.rb li{margin-bottom:5px}
+.rb blockquote{border-left:3px solid var(--orange);padding:10px 14px;margin:12px 0;background:rgba(251,146,60,.06);border-radius:0 10px 10px 0;color:var(--dim);font-size:.88em}
+.rb table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.84em}
+.rb thead{background:rgba(56,189,248,.08)}
+.rb th{padding:10px 10px;text-align:left;font-weight:600;color:var(--accent);border-bottom:2px solid var(--border);white-space:nowrap}
+.rb td{padding:9px 10px;border-bottom:1px solid var(--border);word-break:break-word}
+.rb tr:hover{background:rgba(56,189,248,.03)}
+.rb pre{background:var(--card);color:var(--accent);padding:14px;border-radius:10px;overflow-x:auto;font-size:.85em;line-height:1.7;margin:14px 0;white-space:pre-wrap;word-break:break-word}
+.rb hr{border:none;border-top:1px solid var(--border);margin:20px 0}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px -4px;padding:0 4px}
+.table-wrap table{min-width:600px}
+.html-frame{width:100%;min-height:70vh;border:1px solid var(--border);border-radius:14px;background:white}
+.empty{text-align:center;padding:48px 20px;color:var(--dim)}
+.footer{text-align:center;padding:20px;color:var(--dim);font-size:.78em;border-top:1px solid var(--border);margin-top:32px}
+
+@media(max-width:768px){
+  .hero{padding:32px 16px 20px}
+  .hero h1{font-size:1.8em}
+  .hero .tagline{font-size:.86em;margin-bottom:14px}
+  .page-sub{padding:12px 14px 14px}
+  .page-sub h2{font-size:1.1em}
+  .nav{gap:6px}
+  .nav a{padding:7px 12px;font-size:.78em}
+.wrap{padding:0 12px 32px}
+  .rb h1{font-size:1.15em;padding:12px 14px}
+  .rb h2{font-size:1em}
+  .rb th,.rb td{padding:7px 8px;font-size:.78em}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1><span class="u">u</span>willbe<span class="u">rich</span></h1>
+  <p class="tagline">不做股评家，不做事后诸葛亮。<br>我们只做一件事：<strong>把不完整的信息变成下一个交易日的执行计划。</strong></p>
+  <nav class="nav" id="nav"></nav>
+</div>
+<div class="page-sub"><h2 id="pageTitle">日报</h2><div class="meta-line" id="metaLine"></div></div>
+
+<div class="wrap">
+  <div class="rb" id="reportBody"><div class="empty">加载中...</div></div>
+</div>
+
+<div class="footer">uwillberich Decision Engine</div>
+
+<script>
+const B=window.APP_BASE_PATH||'';
+document.getElementById('homeLink').href=B+'/';
+
+const SLUG_LABEL={pq:{label:'盘前',icon:'🌅',cls:'pq'},pz:{label:'盘中',icon:'☀️',cls:'pz'},ph:{label:'盘后',icon:'🌙',cls:'ph'}};
+const SLUG_MAP={pre_market:'pq',mid_market:'pz',after_market:'ph'};
+
+function parsePath(){
+  const lp=(B&&window.location.pathname.startsWith(B))?window.location.pathname.slice(B.length):window.location.pathname;
+  const segs=lp.split('/').filter(Boolean);
+  if(segs.length===2&&/^\d{8}$/.test(segs[0]))return{date:segs[0],slug:segs[1]};
+  if(segs[0]==='report'&&segs.length===3)return{date:segs[1],slug:SLUG_MAP[segs[2]]||segs[2]};
+  return null;
+}
+
+// Build nav with current date's report links
+const _p=parsePath();
+const _d=_p?_p.date:'20260322';
+const _s=_p?_p.slug:'';
+document.getElementById('nav').innerHTML=[
+  `<a href="${B}/">首页</a>`,
+  `<a href="${B}/news">📡 实时快讯</a>`,
+  `<a href="${B}/insights">🧠 大V观点</a>`,
+  `<a href="${B}/zt">🔥 涨停复盘</a>`,
+  `<a href="${B}/${_d}/pq"${_s==='pq'?' class="on"':''}>🌅 盘前日报</a>`,
+  `<a href="${B}/${_d}/pz"${_s==='pz'?' class="on"':''}>☀️ 盘中日报</a>`,
+  `<a href="${B}/${_d}/ph"${_s==='ph'?' class="on"':''}>🌙 盘后日报</a>`,
+].join('');
+
+async function load(){
+  const p=parsePath();
+  if(!p||!p.date||!p.slug){document.getElementById('reportBody').innerHTML='<div class="empty">无效链接</div>';return;}
+  const{date,slug}=p;
+  const info=SLUG_LABEL[slug]||{label:slug,icon:'📄',cls:''};
+
+  document.title=info.label+' - uwillberich';
+  document.getElementById('pageTitle').innerHTML=info.icon+' '+info.label;
+  const yr=date.slice(0,4),mo=parseInt(date.slice(4,6)),dy=parseInt(date.slice(6,8));
+  document.getElementById('metaLine').innerHTML=`<span class="meta-pill ${info.cls}">${yr}年${mo}月${dy}日</span>`;
+
+  try{
+    const[rr,dr]=await Promise.all([fetch(B+'/api/report/'+date+'/'+slug),fetch(B+'/api/reports/'+date)]);
+    if(!rr.ok)throw 0;
+    const report=await rr.json();
+    const dateMeta=dr.ok?await dr.json():null;
+
+    if(report.isHtml){
+      document.getElementById('reportBody').innerHTML=`<iframe class="html-frame" src="${B}/raw-report/${date}/${slug}" loading="lazy" sandbox="allow-same-origin"></iframe>`;
+    }else if(report.isMarkdown&&report.renderedHtml){
+      let html=report.renderedHtml.replace(/<table>/g,'<div class="table-wrap"><table>').replace(/<\/table>/g,'</table></div>');
+      document.getElementById('reportBody').innerHTML=html;
+    }else{
+      document.getElementById('reportBody').innerHTML='<pre>'+esc(report.content||'')+'</pre>';
+    }
+  }catch(e){
+    document.getElementById('reportBody').innerHTML='<div class="empty">报告加载失败</div>';
+  }
+}
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+load();
+</script>
+</body>
+</html>

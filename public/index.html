@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>uwillberich - A股决策引擎</title>
+<script>
+(function(){
+  var p=window.location.pathname||'/';
+  var m=p.match(/^(\/reports)/);
+  window.APP_BASE_PATH=m?m[1]:'';
+})();
+</script>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--border:#1e293b;--text:#f1f5f9;--dim:#94a3b8;--accent:#38bdf8;--red:#ef4444;--gold:#fbbf24;--green:#4ade80;--orange:#fb923c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,"PingFang SC",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* Hero */
+.hero{position:relative;padding:48px 20px 28px;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(56,189,248,.1),transparent 60%),radial-gradient(ellipse at 20% 100%,rgba(239,68,68,.06),transparent 50%);z-index:0}
+.hero>*{position:relative;z-index:1}
+.hero h1{font-size:2.6em;font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:10px}
+.hero h1 .u{color:var(--gold)}
+.hero .tagline{font-size:.95em;color:var(--dim);max-width:540px;margin:0 auto 20px;line-height:1.7}
+.hero .tagline strong{color:var(--text)}
+
+/* Nav */
+.nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.nav a{padding:8px 16px;border-radius:10px;background:var(--card);color:var(--dim);text-decoration:none;font-weight:600;font-size:.84em;border:1px solid var(--border);transition:all .15s;white-space:nowrap}
+.nav a:hover,.nav a.on{border-color:var(--accent);color:var(--accent)}
+.nav a.on{background:rgba(56,189,248,.08)}
+
+/* Sections */
+.wrap{max-width:900px;margin:0 auto;padding:0 20px 60px}
+section{margin-top:56px}
+section h2{font-size:1.6em;font-weight:700;margin-bottom:8px}
+section h2 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:10px}
+section .lead{color:var(--dim);font-size:.95em;line-height:1.7;margin-bottom:24px;max-width:680px}
+
+/* Manifesto */
+.manifesto{font-size:1.08em;line-height:2;color:var(--dim);border-left:3px solid var(--red);padding-left:20px;margin-bottom:32px}
+.manifesto strong{color:var(--text)}
+.manifesto em{color:var(--gold);font-style:normal;font-weight:600}
+
+/* Cards grid */
+.cards{display:flex;flex-direction:column;gap:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 28px 24px;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card h3{font-size:1.15em;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.card .motto{font-size:1em;color:var(--gold);font-weight:600;margin-bottom:14px;line-height:1.7}
+.card p{color:var(--dim);font-size:.92em;line-height:1.85;margin-bottom:10px}
+.card ul{list-style:none;color:var(--dim);font-size:.9em;line-height:2}
+.card li::before{content:'→';color:var(--accent);margin-right:8px;font-weight:700}
+
+/* Timeline */
+.timeline{display:flex;flex-direction:column;gap:0;position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--border)}
+.tl-item{position:relative;padding:12px 0 12px 20px}
+.tl-item::before{content:'';position:absolute;left:-24px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.tl-item .time{font-size:.82em;color:var(--accent);font-weight:700;font-family:monospace}
+.tl-item .desc{color:var(--dim);font-size:.9em;margin-top:2px}
+.tl-item .desc strong{color:var(--text)}
+
+/* Pillars */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pillar{text-align:center;padding:28px 16px;background:var(--card);border:1px solid var(--border);border-radius:14px}
+.pillar .num{font-size:2.4em;font-weight:800;line-height:1}
+.pillar .label{font-size:.85em;color:var(--dim);margin-top:6px}
+.pillar:nth-child(1) .num{color:var(--red)}
+.pillar:nth-child(2) .num{color:var(--gold)}
+.pillar:nth-child(3) .num{color:var(--green)}
+
+/* Bottom CTA */
+.cta{text-align:center;margin-top:56px;padding:40px 20px;border-top:1px solid var(--border)}
+.cta h2{font-size:1.8em;font-weight:800;margin-bottom:12px}
+.cta p{color:var(--dim);margin-bottom:24px;font-size:1em}
+.cta .btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.cta .btn{padding:14px 28px;border-radius:12px;font-weight:700;font-size:.95em;text-decoration:none;transition:all .2s}
+.btn-primary{background:var(--red);color:white}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(239,68,68,.3)}
+.btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+.footer{text-align:center;padding:24px;color:var(--dim);font-size:.8em;border-top:1px solid var(--border);margin-top:40px}
+
+@media(max-width:768px){
+  .hero{padding:32px 16px 20px}
+  .hero h1{font-size:1.8em}
+  .hero .tagline{font-size:.86em;margin-bottom:14px}
+  .nav{gap:6px}
+  .nav a{padding:7px 12px;font-size:.78em}
+  .wrap{padding:0 14px 40px}
+  section{margin-top:36px}
+  section h2{font-size:1.3em}
+  .manifesto{font-size:.95em;padding-left:14px}
+  .pillars{grid-template-columns:1fr}
+  .card{padding:20px 18px 18px}
+  .card h3{font-size:1.05em}
+  .card .motto{font-size:.92em}
+  .card p{font-size:.88em}
+  .cta h2{font-size:1.4em}
+  .cta .btn{padding:12px 22px;font-size:.9em;width:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1><span class="u">u</span>willbe<span class="u">rich</span></h1>
+  <p class="tagline">
+    不做股评家，不做事后诸葛亮。<br>
+    我们只做一件事：<strong>把不完整的信息变成下一个交易日的执行计划。</strong>
+  </p>
+  <nav class="nav" id="nav"></nav>
+</div>
+
+<div class="wrap">
+
+  <!-- 宣言 -->
+  <section>
+    <h2><span class="dot" style="background:var(--red)"></span>我们相信什么</h2>
+    <div class="manifesto">
+      市场不会告诉你真相，它只会告诉你<em>谁在出价</em>。<br><br>
+      大多数人在暴跌后抄底，我们在暴跌后<strong>观察谁先站起来</strong>——那才是真正的主线。<br><br>
+      大多数人在上涨时追高，我们在上涨时<strong>确认广度</strong>——如果只有三五只票在涨，那不叫修复，那叫<em>诱多</em>。<br><br>
+      我们不预测，我们<strong>设条件、等确认、给执行</strong>。<br>
+      每一天，三份报告，<em>盘前定计划，盘中验假设，盘后做复盘</em>。<br><br>
+      你要做的只有一件事——<strong>跟着条件走，别跟着情绪走。</strong>
+    </div>
+  </section>
+
+  <!-- 三层分析 -->
+  <section>
+    <h2><span class="dot" style="background:var(--gold)"></span>三层穿透式分析</h2>
+    <p class="lead">每一份日报都从三个维度穿透市场，从外到内，层层过滤噪音。</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="num">L1</div>
+        <div class="label">外部冲击层</div>
+        <p style="color:var(--dim);font-size:.8em;margin-top:8px">油价·地缘·美债·美股<br>全球风险情绪</p>
+      </div>
+      <div class="pillar">
+        <div class="num">L2</div>
+        <div class="label">政策流动性层</div>
+        <p style="color:var(--dim);font-size:.8em;margin-top:8px">LPR·央行姿态·财政信号<br>国内宏观预期</p>
+      </div>
+      <div class="pillar">
+        <div class="num">L3</div>
+        <div class="label">市场结构层</div>
+        <p style="color:var(--dim);font-size:.8em;margin-top:8px">指数行为·广度·板块轮动<br>相对强弱·龙头质量</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 时间门控 -->
+  <section>
+    <h2><span class="dot" style="background:var(--accent)"></span>时间门控系统</h2>
+    <p class="lead">不是所有时间都适合决策。我们在关键时刻设下确认门，过了门才行动。</p>
+    <div class="timeline">
+      <div class="tl-item"><span class="time">09:00</span><div class="desc"><strong>政策门</strong> — LPR日看发布，非LPR日看隔夜政策口径</div></div>
+      <div class="tl-item"><span class="time">09:20</span><div class="desc"><strong>集合竞价</strong> — 领导权在科技修复还是防御权重？</div></div>
+      <div class="tl-item"><span class="time">09:30</span><div class="desc"><strong>开盘窗口</strong> — 龙头能否站回昨收？不能就不追</div></div>
+      <div class="tl-item"><span class="time">10:00</span><div class="desc"><strong>广度确认</strong> — 只有少数票涨的反弹，是假的</div></div>
+      <div class="tl-item"><span class="time">14:00</span><div class="desc"><strong>午后扩散</strong> — 主线能从龙头扩到中军才算数</div></div>
+      <div class="tl-item"><span class="time">15:00</span><div class="desc"><strong>收盘定性</strong> — 定性当日市场状态，决定明日方向</div></div>
+    </div>
+  </section>
+
+  <!-- 核心规则 -->
+  <section>
+    <h2><span class="dot" style="background:var(--green)"></span>铁律</h2>
+    <p class="lead">这些不是建议，这些是纪律。</p>
+    <div class="cards">
+      <div class="card" style="border-left:3px solid var(--red)">
+        <h3>铁律一：相对强度 > 抄底思维</h3>
+        <div class="motto">"跌得最多的不是机会，站起来最快的才是。"</div>
+        <p>散户最大的幻觉是"便宜"。一只股票从 50 跌到 30，你觉得便宜了 40%，但主力觉得它还没跌完。真正的修复信号不是"跌够了"，而是<strong style="color:var(--gold)">谁先止跌、谁先放量、谁先站回均线</strong>。</p>
+        <p>在弱势行情里，跌幅最小的板块往往是资金真正认可的方向。暴跌之后，不要去捡地上的刀，要看谁先把刀捡起来——那个方向才值得跟。</p>
+        <ul>
+          <li>永远找相对最强的方向，不找跌得最惨的</li>
+          <li>止跌不等于反转，放量回升才算数</li>
+          <li>如果一个板块连续三天都在跌幅榜末尾，说明有人在悄悄接</li>
+          <li>抄底是赌博，跟强是策略</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--gold)">
+        <h3>铁律二：修复 ≠ 防御</h3>
+        <div class="motto">"银行涨了不叫牛市回来了，叫资金在找掩体。"</div>
+        <p>A 股有一种最迷惑人的走势：指数红了，你以为行情来了，进去一看，涨的全是银行、煤炭、电力、石油。这不是修复，这是<strong style="color:var(--gold)">大资金在避险</strong>。</p>
+        <p>真正的修复长什么样？成长股放量，科技股领涨，中小盘活跃，涨停板数量明显增加，赚钱效应从龙头扩散到中军。如果你只看到权重在撑指数而题材股一片死寂，那就是典型的"假修复、真防御"。</p>
+        <ul>
+          <li>只有权重红是避险，不是修复</li>
+          <li>真修复看广度：涨停板数量、中小盘活跃度、量能配合</li>
+          <li>防御行情里最好的策略是轻仓或空仓</li>
+          <li>分不清修复和防御？那就等一天——真正的修复不会只持续半小时</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--accent)">
+        <h3>铁律三：三路径决策树</h3>
+        <div class="motto">"不做预测，做准备。每一种可能性都提前想好对策。"</div>
+        <p>股市里最危险的话是"我觉得明天会涨"。你觉得没用，市场不在乎你觉得。我们的方法是：<strong style="color:var(--gold)">永远同时准备三条路</strong>。</p>
+        <p>每天盘前，我们会画出三个情景：基准路径（最可能发生的）、乐观路径（什么条件触发更好的结果）、悲观路径（跌破什么位置必须认错）。然后盘中只做一件事——看市场走的是哪条路。</p>
+        <ul>
+          <li>Base Case（60%）：最可能的走势，仓位的锚</li>
+          <li>Bull Case（20%）：需要什么条件才能更乐观？条件没出现不加仓</li>
+          <li>Bear Case（20%）：跌破哪里必须撤？提前设好止损位</li>
+          <li>三条路都想清楚了，盘中就不会慌</li>
+          <li>没有计划的交易都是赌博</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--green)">
+        <h3>铁律四：条件驱动，不猜方向</h3>
+        <div class="motto">"情绪会骗你，条件不会。设好条件，然后等它发生。"</div>
+        <p>人性最大的弱点是"我觉得应该涨了"。恐惧和贪婪会让你在该买的时候不敢买，在该卖的时候舍不得卖。解决方案只有一个：<strong style="color:var(--gold)">把所有决策绑定在可观测的条件上</strong>。</p>
+        <p>什么叫条件驱动？"如果龙头股站上昨日收盘价，且成交量放大 50% 以上，说明修复确认，可以加仓"——这是条件。"我感觉明天应该反弹了"——这是赌博。我们每天的日报里，每一个观点都必须绑定触发条件和失效条件。</p>
+        <ul>
+          <li>每个观点必须绑一个触发条件，没条件的观点是废话</li>
+          <li>每个仓位必须设一个失效条件，到了就认错，不存侥幸</li>
+          <li>条件没出现就不动手，耐心等待是最大的能力</li>
+          <li>条件出现了就坚决执行，犹豫就会错过</li>
+          <li>交易记录要写清楚"因为什么条件进的"，复盘才有意义</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 入口 -->
+  <div class="cta">
+    <h2>开始使用</h2>
+    <p>每个交易日自动生成，AI 驱动，零人工干预</p>
+    <div class="btns" id="ctaBtns"></div>
+  </div>
+
+</div>
+
+<div class="footer">Powered by uwillberich Decision Engine · AI-Driven A-Share Analysis</div>
+
+<script>
+const B = window.APP_BASE_PATH || '';
+document.getElementById('nav').innerHTML = [
+  `<a href="${B}/" class="on">首页</a>`,
+  `<a href="${B}/news">📡 实时快讯</a>`,
+  `<a href="${B}/insights">🧠 大V观点</a>`,
+  `<a href="${B}/zt">🔥 涨停复盘</a>`,
+  `<a href="${B}/20260322/pq">🌅 盘前日报</a>`,
+  `<a href="${B}/20260322/pz">☀️ 盘中日报</a>`,
+  `<a href="${B}/20260322/ph">🌙 盘后日报</a>`,
+].join('');
+document.getElementById('ctaBtns').innerHTML = `
+  <a class="btn btn-primary" href="${B}/news">实时快讯</a>
+  <a class="btn btn-secondary" href="${B}/insights">大V观点</a>
+  <a class="btn btn-secondary" href="${B}/zt">涨停复盘</a>
+`;
+</script>
+</body>
+</html>
